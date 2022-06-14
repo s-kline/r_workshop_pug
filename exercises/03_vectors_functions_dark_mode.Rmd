@@ -120,15 +120,54 @@ Try out a few other functions. Here are some you could try:
 
 3.1) `max()` gives you the maximum value in a vector. What do you think `min()` does? Use both on `hotdog_2018` and/or `hotdog_2019`.
 
+```{r}
+max(hotdog_2018)
+min(hotdog_2018)
+
+max(hotdog_2019)
+min(hotdog_2019)
+```
+
+
 3.2) Use `table()` on `hotdog_sex`. What do you get?
+```{r}
+table(hotdog_sex)
+
+```
+
 
 3.3) Try `mean()` and `sd()` - those return the mean and the standard deviation.
 
+```{r}
+mean(hotdog_2018)
+median(hotdog_2018)
+sd(hotdog_2018)
+
+```
+
+
 3.4) Use `summary()` on `hotdog_2018` and `hotdog_2019`. What is the difference to using `mean()` and `sd()`?
+```{r}
+summary(hotdog_2018)
+summary(hotdog_2019)
+```
+
 
 3.5) Use `head()` and `tail()` on either of the vectors. What do these functions do?
 
+```{r}
+hotdog_2019
+head(hotdog_2019)
+tail(hotdog_2019)
+```
+
+
 3.6) How many hotdogs were eaten in total in the year 2019? Use the function `sum()`.
+
+```{r}
+sum(hotdog_2019)
+```
+
 
 A lot of functions can take more than one argument.
 For example, you can control the behaviour of `head()` and `tail()` with an additional argument.
@@ -174,6 +213,10 @@ hotdog_names[3]
 
 4.1) Can you find the name of the 5th contestant?
 
+```{r}
+hotdog_names[5]
+```
+
 What if we wanted to find the names of the 3rd **and** the 5th contestant?
 We can use another vector for indexing!
 
@@ -189,6 +232,13 @@ hotdog_names[3, 5]
 ```
 
 4.2) What if we want to see the first 3 contestants? (There are several ways to achieve this.)
+
+```{r}
+hotdog_names[1:3]
+hotdog_names[c(1, 2, 3)]
+
+```
+
 
 We can re-assign elements in a vector using indexing.
 For example, let's replace the third element in this vector of numbers:
@@ -207,7 +257,29 @@ Note how this re-assignment permanently changes the vector.
 
 4.3) Can you change the third and fourth element of `numbers` with different numbers? Can you achieve that in a single assignment (i.e. using `<-` only once)?
 
+```{r}
+numbers[c(3, 4)] <- c(222, 333)
+numbers
+numbers[3:4]<- c(444, 555)
+numbers
+```
+
+
 4.4) Numbers only has four elements - what happens if you try to assign a fifth one?
+
+```{r}
+numbers[5] <- 555
+numbers
+```
+```{r}
+numbers
+numbers[-3] # not permanent, just in-place
+numbers
+numbers <- numbers[-3] # overwrite original to make permanent
+numbers
+numbers[-c(3, 4)]
+```
+
 
 In most cases, we use logical comparison for indexing.
 Here is how this works: Say we have a vector called `numbers` that contains the number 1 - 4.
@@ -256,7 +328,18 @@ What a computer wants is a statement like this: "Show me all of the elements in 
 
 4.5) Write code that gives you all elements larger than 6 in the vector `1:10`.
 
+O
+```{r}
+count_to_ten <- 1:10
+count_to_ten
+count_to_ten[count_to_ten > 6]
+```
+
 4.6) Write code that replaces all elements larger than 6 in the vector `1:10` with the number 666.
+```{r}
+count_to_ten[count_to_ten > 6] <- 666
+count_to_ten
+```
 
 Let's apply indexing with logical vectors to our hotdog data.
 
@@ -271,11 +354,32 @@ hotdog_names[hotdog_sex == "female"]
 
 4.7) Which contestants improved, i.e. who ate more hotdogs in 2019 than in 2018?
 
+```{r}
+hotdog_names[hotdog_2019 > hotdog_2018]
+```
+
+
 4.8) Get the name of the person who ate the most hot dogs in 2019. Hint: You can use functions inside `[]` - try using `max()`!
+
+```{r}
+hotdog_names[hotdog_2019 == max(hotdog_2019)]
+
+```
+
 
 4.9) Can you find the name of the contestant who ate exactly the same number of hot dogs in 2018 and 2019?
 
+```{r}
+hotdog_names[hotdog_2019 == hotdog_2018]
+```
+
+
 4.10) Remember that you can combine logical comparisons using `&` ("and") and `|` ("or"). Can you get the names of the contestants that ate more than 25 hot dogs in 2019, but less than 30?
+
+```{r}
+hotdog_names[hotdog_2019 > 25 & hotdog_2019 < 30]
+```
+
 
 ### Optional
 
@@ -283,7 +387,21 @@ hotdog_names[hotdog_sex == "female"]
 Assume you want to get the last element in a vector, but you don't know how long it is.
 Try using `length()` inside of `[]` to get the last contestant in `hotdog_names`.
 
+```{r}
+hotdog_names [length(hotdog_names)]
+```
+
+
 4.12) **Super bonus exercise** (more of a brain puzzle than a coding exercise): Can you find a way to get the name of the **woman** who ate the **most hot dogs in 2019**? This can be achieved in a single (very long) line of code, but you can also solve it in several steps, saving intermediate results into variables.
+
+```{r}
+hotdog_women <- hotdog_names[hotdog_sex == "female"]
+hotdog_women[hotdog_2019 == max(hotdog_2019)]
+
+hotdog_names[hotdog_2019 == max(hotdog_2019[hotdog_sex == "female"])]
+(hotdog_names[hotdog_sex == "female"])[hotdog_2019 == max(hotdog_2019)]
+```
+
 
 ## Missing values
 
@@ -333,17 +451,58 @@ Can you use `na.rm = TRUE` to change their behaviour?
 
 Create a vector that has one or more missing values. Then examine the behaviour of the following functions:
 
+```{r}
+missing_numbers <- c(1, 20, NA, 12, 3, 15, NA, 7)
+missing_numbers
+```
+
+
 5.1) `sd()`
+```{r}
+sd(missing_numbers)
+sd(missing_numbers, na.rm = TRUE)
+```
+
 
 5.2) `min()` and `max()`
 
+```{r}
+min(missing_numbers)
+min(missing_numbers, na.rm = TRUE)
+max(missing_numbers)
+max(missing_numbers, na.rm = TRUE)
+```
+
+
 5.3) `summary()`
+
+```{r}
+summary(missing_numbers)
+summary(missing_numbers, na.rm = TRUE)
+```
+
 
 5.4) `table()`
 
+```{r}
+table(missing_numbers)
+```
+
+
 5.5) `head()` and `tail()`
 
+```{r}
+head(missing_numbers)
+head(missing_numbers, na.rm = TRUE)
+```
+
+
 5.6) `length()`
+
+```{r}
+length(missing_numbers)
+```
+
 
 ### Optional
 
