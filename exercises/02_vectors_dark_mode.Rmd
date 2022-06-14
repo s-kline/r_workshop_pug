@@ -47,6 +47,7 @@ c(1, 7, 12, 4, 2)
 You can see that this vector contains five numbers.
 Those numbers are separated with commas and wrapped in parentheses - but at the beginning, there is an ominous `c`.
 If you run this code, however, it just shows the numbers next to each other, without the `c()` and without the commas.
+# c stands for combine
 
 Here is another example of a vector:
 
@@ -111,7 +112,24 @@ my_vector # print vector
 
 1.1) Create some vectors. Create one vector with characters, one with numbers, and one with logicals. Save them all into different variables.
 
+```{r}
+char_vector <-  c("hello", "world", "are", "you", "listening", "?")
+char_vector
+
+num_vector <- c(1, 2, 3, 4, 5, 6.1)
+num_vector
+
+bool_vector <- c(TRUE, TRUE, FALSE, TRUE, FALSE)
+bool_vector
+```
+
 1.2) We saw that the `c()` function combines elements into a vector, but it can also combine vectors! Try to combine some of the vectors you previously created using the `c()` function.
+```{r}
+
+c(char_vector, num_vector)
+c(num_vector, bool_vector)
+
+```
 
 ### Optional
 
@@ -141,10 +159,21 @@ c(1, 2, 5) + 1
 What do you expect the following code will produce?
 
 2.2) `c(1, 2, 5) - 1`
+```{r}
+c(1, 2, 5) - 1
+```
 
 2.3) `c(1, 2, 5) * 2`
+```{r}
+c(1, 2, 5) * 2
+```
+
 
 2.4) `c(1, 2, 5) / 2`
+```{r}
+c(1, 2, 5) / 2
+```
+
 
 Vectors are one of the most important concepts of `R`.
 Sure, other programming languages have similar concepts, but in `R`, vectors are really powerful.
@@ -159,10 +188,22 @@ c(2, 4, 6) + c(1, 0, 2)
 Now, you can infer what these lines of code will do:
 
 2.5) `c(2, 4, 6) - c(1, 0, 1)`
+```{r}
+c(2, 4, 6) - c(1, 0, 1)
+```
+
 
 2.6) `c(2, 4, 6) * c(1, 0, 1)`
+```{r}
+c(2, 4, 6) * c(1, 0, 1)
+```
+
 
 2.7) `c(2, 4, 6) / c(1, 2, 1)`
+```{r}
+c(2, 4, 6) / c(1, 2, 1)
+```
+
 
 However, things get *really* wild when we use vectors that don't have the same length.
 
@@ -175,15 +216,23 @@ c(2, 4, 6, 5, 0, 0) + c(1, 10)
 Let's look at this concept some more.
 
 2.8) Can you multiply **every other** element of `c(2, 4, 6, 4, 9, 12)` with 2? (I.e. only 4, 4 and 12 should be multiplied with 2 - the other elements should be left unchanged.)
+```{r}
+c(2, 4, 6, 5, 0, 0) * c(1, 2)
+```
 
 ### Optional
 
 2.9) Given `c(2, 4, 6, 4, 9, 12)`, subtract 1 from the first element, 2 from the second, 3 from the third, then again 1 from the fourth, 2 from the second and so on.
+
+```{r}
+c(2, 4, 6, 4, 9, 12) - c(1, 2, 3)
+```
 
 2.10) Run the following code cell. What happened here? Is that bad?
 
 ```{r}
 c(2, 4, 6, 4, 9, 12) + c(1, 2, 3, 4)
 ```
-
+ where other languages use loops, r users use vectors because they are so powerful
+ 
 **THIS IS A GIT PUSH CHECKPOINT!**
