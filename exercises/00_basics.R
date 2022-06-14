@@ -84,15 +84,28 @@ typeof(3.2)
 # Let's take a look at how we can "produce" logicals.
 
 # 3.1) Run 12 > 3.
+12 > 3
 
 # 3.1) Run 12 == 12. What does it do? What happens if you try 12 = 12 instead?
+12 == 12
 
 # 3.2) What is "cat" != "dog"?
+"cat" != "dog"
+"cat" == "cat"
 
 # 3.3) Try out: FALSE & FALSE, then FALSE & TRUE and finally, TRUE & TRUE. 
 #      What happens?
+FALSE & FALSE
+FALSE & TRUE
+TRUE & TRUE
+# --> if at least one is false, it returns false, just like python
 
 # 3.4) Try the same as above, but replace & with | (alt gr + <). What does | do?
+FALSE | FALSE
+FALSE | TRUE
+TRUE | TRUE
+# --> if at least one is true, it returns true, just like python
+
 
 ## OPTIONAL --------------------------------------------------------------------
 
@@ -133,6 +146,7 @@ single_number <- 7
 single_number <- 2
 
 # 4.3) Assign something to a variable with a name of your choice.
+my_first_var <- "hello world"
 
 # 4.4) Examine what happens here. What is the result? What do you think will 
 #      single_number contain now? 2 or 6? Run single_number in the console to 
