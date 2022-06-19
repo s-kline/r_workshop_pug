@@ -126,11 +126,19 @@ It tells us that our histogram used a default for the width of the bars (bins) i
 
 ```{r}
 nerd_red %>% 
-  ggplot(aes(x = age)) +
+  ggplot(aes(x = age)) + # eveyrthing thats got something to do with the data goes into the aes (aestheticts) function
   geom_histogram()
 ```
 
 1.1) Use the `bins` argument in `geom_histogram()` to try out different bin widths.
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age)) +
+  geom_histogram(bins = 90
+                 )
+```
+
 
 Let's try another geom - `geom_point`, which will give us a scatter plot.
 It requires information on the x **and** y axis.
@@ -163,12 +171,27 @@ With the argument `se = FALSE` we can get rid of the grey confidence interval ar
 nerd_red %>% 
   ggplot(aes(x = age, y = nerd_score)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+  geom_smooth(method = "lm")#, se = FALSE)
 ```
 
 1.2) Use `geom_boxplot()` to plot participants' marital status on the x axis, and the age on the y axis.
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = married, y = age)) +
+  geom_boxplot()
+```
+
+
 1.3) Create a scatter plot that displays the relationship between the `nerdy` question and the `nerd_score`.
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = nerdy, y = nerd_score)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
 
 ## Building plots
 
@@ -227,12 +250,41 @@ Note how `colour` worked on both `geom_point` and `geom_smooth`.
 
 3.1) Create a more complex version of the plot from 1.2). Use `geom_boxplot()` to plot participants' marital status on the x axis, and the age on the y axis. Colour the boxplots based on gender.
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = married, y = age, color = gender)) +
+  geom_boxplot()
+
+```
+
 3.2) In the plot from 3.1), rename the argument `colour` to `fill`. What's the difference?
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = married, y = age, fill = gender)) +
+  geom_boxplot()
+
+```
 
 3.3) Create a scatter plot with `nerd_score` and `age`. Use the argument `shape` within `aes()` to group the data by marital status. Additionally, colour the data by marital status.
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age, y = nerd_score, shape = married, color = married)) +
+  geom_point()
+```
+
+
 3.4) Create a scatter plot with `nerd_score` and `age`. Try using the argument `size = nerdy` within `aes()`. What happens if you use `colour` instead of size (or maybe even both)?
 Tip: It's a bit easier to see what's going on when you only use the first 50 rows or so of `nerd_red`.
+
+```{r}
+nerd_red %>%
+  #head(50) %>% 
+  ggplot(aes(x = age, y = nerd_score, size = nerdy, color = nerdy)) +
+  geom_point()
+```
+
 
 ## Customise your plot
 
@@ -256,6 +308,18 @@ nerd_red %>%
 
 4.1) `labs()` can also change other labels of your plot. Run `?labs` and read the description of the function to find out which other labels it can change. Try all of them (except for `alt` and `alt_insight` - these only work for web-pages).
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age, y = nerd_score, colour = gender)) +
+  geom_point() +
+  labs(y = "sum score nerdiness questionnaire",
+       x = "Age in years",
+       title = "Relationship between nerdiness and age",
+       subtitle = "this is a subtitle",
+       caption = "A very informative caption that explains the data in the plot",
+       tag = "Fig. 1")
+```
+
 The legend would look better if it was at the top of our plot.
 In general, many things about our plot's appearance can be controlled using the `theme()` function, such as like font sizes, what the grid lines and axes look like and much, much more.
 
@@ -264,7 +328,7 @@ nerd_red %>%
   ggplot(aes(x = age, y = nerd_score, colour = gender)) +
   geom_point() +
   labs(y = "sum score nerdiness questionnaire") +
-  theme(legend.position = "top")
+  theme(legend.position = "top") # this can be used to control most appearance stuff
 ```
 
 You can see all the different options of `theme()` by taking a look at `?theme`.
@@ -302,6 +366,15 @@ nerd_red %>%
 
 4.2) Try a different theme!
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age, y = nerd_score, colour = gender)) +
+  geom_point() +
+  labs(y = "sum score nerdiness questionnaire") +
+  theme_dark() +
+  theme(legend.position = "top")
+```
+
 Lastly, let's change the steps on the x and y axis.
 For this task, the function `seq()` comes in handy, which generates a sequence of numbers.
 The arguments it takes are where the sequence begins, where it ends and how big the steps in between should be:
@@ -328,6 +401,14 @@ nerd_red %>%
 
 4.3) You can probably guess what the function for adjusting the y axis is called like. Use it to change the steps on the y-axis.
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = nerd_score, y = age)) +
+  geom_point() +
+  scale_x_continuous(breaks = seq(0, 130, 10)) + 
+  scale_y_continuous(breaks = seq(10, 100, 10))
+```
+
 Note that the argument `breaks` only controls the size of the **steps** on an axis, but not the **limits**.
 In this example, we used breaks from 0 - 200, but the last label that is printed is 130.
 
@@ -339,6 +420,16 @@ nerd_red %>%
 ```
 
 4.4) You can control the limits of an axis using the argument `limits` inside of `scale_x_continuous()`. It requires a vector with two elements as input: The first element controls the lower limit of the axis, the second element controls the upper limit of the axis. Try different limits for the x and y axis!
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = nerd_score, y = age)) +
+  geom_point() +
+  scale_x_continuous(breaks = seq(0, 130, 10),
+                     limits = c(0, 120)) +
+  scale_y_continuous(breaks = seq(10, 100, 10),
+                     limits = c(10, 100))
+```
 
 # Beyond aes()
 
@@ -385,6 +476,12 @@ nerd_red %>%
 
 4.6) Try the arguments `size` and `alpha` outside of `aes()`. If you want to, you can use other geoms and try out how these arguments affect them.
 
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age, y = nerd_score)) +
+  geom_point(size = 10, alpha = 0.25, color = "#FB8500")
+```
+
 ## Custom colours
 
 Outside of `aes()`, we can simply tell `R` which colours or shapes to use.
@@ -394,7 +491,7 @@ Here's how we change them:
 ```{r}
 nerd_red %>% 
   ggplot(aes(x = gender, y = nerd_score, fill = married)) +
-  scale_fill_manual(values = c("yellow", "pink", "purple")) + # custom colours
+  scale_fill_manual(values = c("#8ECAE6", "#219EBC", "#023047")) + # custom colours
   geom_boxplot()
 ```
 
@@ -405,6 +502,17 @@ Changing other aesthetics works in the same way - the functions are just called 
 E.g. there's `scale_colour_manual()` or `scale_shape_manual()`.
 
 5.1) Create your own plot with custom aesthetics. Try out what happens if you change the order of the values in the vector.
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = gender, y = nerd_score, fill = married, color = married)) +
+  scale_colour_manual(values = c("#219EBC", "#8ECAE6", "#023047")) + 
+  scale_fill_manual(values = c("#40BEDD", "#CDE8F4", "#045E8B")) +
+  geom_boxplot() +
+  theme_classic()+
+  theme(legend.position = "top")
+```
+
 
 ## Facets
 
@@ -440,6 +548,18 @@ nerd_red %>%
 ```
 
 6.1) Create a plot with facets yourself. Try to additionally add some aesthetics that are based on the data (i.e. that work inside of `aes()`).
+
+```{r}
+nerd_red %>% 
+  ggplot(aes(x = age, y = nerd_score, color = gender)) +
+  scale_colour_manual(values = c("#219EBC", "#8ECAE6", "#023047")) +
+  geom_point(alpha = .5) +
+  geom_smooth (method = "lm", se= FALSE) +
+  facet_wrap(~ married) +
+  theme_classic() +
+  theme(legend.position = "top")
+```
+
 
 ### Optional
 
